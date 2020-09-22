@@ -7,7 +7,8 @@ void ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data)
 	{
 		for (int j = x; j < x + width; j++)
 		{
-			this->buffer[j + i * this->w] = *p++;
+			if (j >= 0 && j < w && i >= 0 && i < h)
+				this->buffer[j + i * this->w] = *p++;
 		}
 	}
 }

@@ -2,14 +2,74 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <Windows.h>
 #include <math.h>
 #include <WinUser.h>
+#include <sstream>
 #include "ConsoleBuffer.h"
+#include "Player.h"
+#include "KeyboardScheme.h"
 
 void sayHi(CHAR_INFO* buffer, int x, int y);
-const int SCREEN_WIDTH = 80;
+const int SCREEN_WIDTH = 120;
 const int SCREEN_HEIGHT = 40;
+
+
+#ifndef __NY_TIMER__
+#define __NY_TIMER__
+
+#include <windows.h>
+
+class NYTimer
+{
+public:
+    LARGE_INTEGER lastUpdateTime;
+    LONGLONG freq;
+
+    NYTimer()
+    {
+        QueryPerformanceCounter(&lastUpdateTime);
+        LARGE_INTEGER li_freq;
+        QueryPerformanceFrequency(&li_freq);
+        freq = li_freq.QuadPart;
+        freq /= 1000;
+    }
+
+    void start(void)
+    {
+        QueryPerformanceCounter(&lastUpdateTime);
+    }
+
+    float getElapsedSeconds(bool restart = false)
+    {
+        LARGE_INTEGER timeNow;
+        QueryPerformanceCounter(&timeNow);
+        LONGLONG elapsedLong = timeNow.QuadPart - lastUpdateTime.QuadPart;
+
+        float elapsed = (float)((float)elapsedLong / (float)freq);
+        elapsed /= 1000.0f;
+
+        if (restart)
+            lastUpdateTime = timeNow;
+
+        return elapsed;
+    }
+
+    unsigned long getElapsedMs(bool restart = false)
+    {
+        LARGE_INTEGER timeNow;
+        QueryPerformanceCounter(&timeNow);
+        LONGLONG elapsedLong = timeNow.QuadPart - lastUpdateTime.QuadPart;
+
+        unsigned long elapsed = (unsigned long)((float)elapsedLong / (float)freq);
+        if (restart)
+            lastUpdateTime = timeNow;
+        return elapsed;
+    }
+};
+
+#endif
 
 int main()
 {
@@ -19,6 +79,10 @@ int main()
     COORD dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
     COORD dwBufferCoord = { 0, 0 };
     SMALL_RECT rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
+
+    SetConsoleWindowInfo(hOutput, true, &rcRegion);
+    SetConsoleScreenBufferSize(hOutput, dwBufferSize);
+
     CONSOLE_CURSOR_INFO cursor;
     GetConsoleCursorInfo(hOutput, &cursor);
     cursor.bVisible = false;
@@ -27,64 +91,65 @@ int main()
     CHAR_INFO initBuffer[SCREEN_HEIGHT][SCREEN_WIDTH];
     ReadConsoleOutput(hOutput, (CHAR_INFO*)initBuffer, dwBufferSize,
         dwBufferCoord, &rcRegion);
-    ConsoleBuffer buffer = ConsoleBuffer((CHAR_INFO*)initBuffer, SCREEN_HEIGHT, SCREEN_WIDTH);
+    ConsoleBuffer buffer = ConsoleBuffer((CHAR_INFO*)initBuffer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
 
-    float x = 0.0;
-    float y = 0.0;
-    float radius = 7.0;
-    float cx = 10.0;
-    float cy = 10.0;
-    float period = 100.0;
 
-    int frame = 0;
-    CHAR_INFO sprite[3];
-    sprite[0].Char.UnicodeChar = 'H';
-    sprite[0].Attributes = 0x0E;
-    sprite[1].Char.UnicodeChar = 'i';
-    sprite[1].Attributes = 0x0B;
-    sprite[2].Char.UnicodeChar = '!';
-    sprite[2].Attributes = 0x0A;
+    
+    CHAR_INFO frame1[4];
+    frame1[0].Char.UnicodeChar = 'H';
+    frame1[0].Attributes = 0x0E;
+    frame1[1].Char.UnicodeChar = 'i';
+    frame1[1].Attributes = 0x0B;
+    frame1[2].Char.UnicodeChar = '!';
+    frame1[2].Attributes = 0x0A;
+    frame1[3].Char.UnicodeChar = '!';
+    frame1[3].Attributes = 0x0A;
+    Sprite sprite1 = Sprite(frame1, 2, 2);
 
+    Player player = Player(buffer, sprite1, 10, 5);
+    std::vector<Player> players;
+    players.push_back(player);
+
+    InputScheme* input = new KeyboardScheme();
+
+    NYTimer timer = NYTimer();
+    timer.start();
+    unsigned long ms = 0;
 
     bool isRunning = true;
+
+    int msperframe = 8;
+
     while(isRunning)
     {
-
+        
         
         buffer.Clear();
 
-        if (GetKeyState(VK_RIGHT))
-        {
-            x += 0.01;
-        }
-        /*
-        x = cx + sin(frame / period) * radius;
-        y = cy + cos(frame / period) * radius;*/
-
-        //sayHi((CHAR_INFO*)buffer, x, y);
         
-        buffer.Draw(x, y, 3, 1, sprite);
-
+        
+        for (Player& p : players)
+        {
+            p.ProcessInput();
+            p.Draw();
+        }
+        
+        
+        
+        
+        
         WriteConsoleOutput(hOutput, buffer.buffer, dwBufferSize,
             dwBufferCoord, &rcRegion);
-
-        frame++;
+        
+        ms = timer.getElapsedMs(true);
+        if (ms < msperframe)
+        {
+            Sleep(msperframe - ms);
+        }
     }
 }
 
-void sayHi(CHAR_INFO* buffer, int x, int y)
-{
-    int offset = x + y * SCREEN_WIDTH;
-    buffer[offset].Char.AsciiChar = 'H';
-    buffer[offset].Attributes = 0x0E;
-    offset++;
-    buffer[offset].Char.AsciiChar = 'i';
-    buffer[offset].Attributes = 0x0B;
-    offset++;
-    buffer[offset].Char.AsciiChar = '!';
-    buffer[offset].Attributes = 0x0A;
-}
 // Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
 // Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage
 

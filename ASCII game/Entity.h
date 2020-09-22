@@ -1,13 +1,16 @@
 #pragma once
 #include <Windows.h>
 #include "ConsoleBuffer.h"
+#include "Sprite.h"
+
 class Entity
 {
 public:
-	Entity(ConsoleBuffer b, float posX, float posY) : x(posX), y(posY), buffer(b) { };
+	Entity(ConsoleBuffer b, Sprite s, float posX, float posY) : buffer(b), sprite(s), x(posX), y(posY) { };
 	float			x, y;
-	ConsoleBuffer const	buffer;
+	ConsoleBuffer	buffer;
+	Sprite			sprite;
 	virtual void Draw() = 0;
-	virtual bool CollideWith(Entity other) = 0;
+	//virtual bool CollideWith(Entity other) = 0;
 };
 

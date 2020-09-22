@@ -141,13 +141,20 @@
   <ItemGroup>
     <ClCompile Include="ASCII game.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="KeyboardScheme.cpp" />
+    <ClCompile Include="NYTimer.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="KeyboardScheme.h" />
+    <ClInclude Include="InputScheme.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
