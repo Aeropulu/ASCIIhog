@@ -10,7 +10,8 @@ public:
 	float			x, y;
 	ConsoleBuffer	buffer;
 	Sprite			sprite;
-	virtual void Draw() = 0;
-	//virtual bool CollideWith(Entity other) = 0;
+	void			Draw();
+	int				Overlap(Entity other);
+	SMALL_RECT		getRect();
 };
 

@@ -20,6 +20,7 @@ const int SCREEN_HEIGHT = 40;
 #define __NY_TIMER__
 
 #include <windows.h>
+#include "Wall.h"
 
 class NYTimer
 {
@@ -107,11 +108,20 @@ int main()
     frame1[3].Attributes = 0x0A;
     Sprite sprite1 = Sprite(frame1, 2, 2);
 
-    Player player = Player(buffer, sprite1, 10, 5);
     std::vector<Player> players;
+    Player player = Player(buffer, sprite1, 10, 5);
     players.push_back(player);
 
-    InputScheme* input = new KeyboardScheme();
+
+    std::vector<Wall> walls;
+    Wall wall1 = Wall(buffer, 0, 20, 30, 4);
+    walls.push_back(wall1);
+    Wall wall2 = Wall(buffer, 60, 10, 30, 8);
+    walls.push_back(wall2);
+    Wall wall3 = Wall(buffer, 30, 30, 50, 4);
+    walls.push_back(wall3);
+
+    //InputScheme* input = new KeyboardScheme();
 
     NYTimer timer = NYTimer();
     timer.start();
@@ -119,7 +129,7 @@ int main()
 
     bool isRunning = true;
 
-    int msperframe = 8;
+    unsigned long msperframe = 8;
 
     while(isRunning)
     {
@@ -128,14 +138,22 @@ int main()
         buffer.Clear();
 
         
+        for (Wall& w : walls)
+        {
+            w.Draw();
+        }
         
         for (Player& p : players)
         {
+            p.ProcessNextPos();
             p.ProcessInput();
+            for (Wall& w : walls)
+            {
+                p.ProcessCollision(w);
+            }
+            p.Update();
             p.Draw();
         }
-        
-        
         
         
         

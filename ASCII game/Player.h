@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "InputScheme.h"
 #include "Sprite.h"
+#include "Wall.h"
 
 class Player :
     public Entity
@@ -9,8 +10,14 @@ class Player :
     public: 
         Player(ConsoleBuffer, Sprite, float, float);
         void ProcessInput();
-        void Draw();
+        void Jump();
         int state;
+        float speedX, speedY;
+        float nextX, nextY;
+        void ProcessNextPos();
+        void ProcessCollision(Wall);
+        void Update();
+        
 
     private:
         InputScheme* input;
