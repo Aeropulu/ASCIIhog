@@ -5,6 +5,6 @@ class Wall :
 {
     public:
         Wall(ConsoleBuffer, int, int, int, int);
-        Sprite GenerateSprite(int, int);
+        Sprite** GenerateSprite(int, int);
 };
 

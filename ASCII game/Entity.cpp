@@ -14,10 +14,19 @@ int Entity::Overlap(SMALL_RECT first, SMALL_RECT second)
 
 SMALL_RECT Entity::GetRect()
 {
-	return { (short)x, (short)y, (short)(sprite.w + x), (short)(sprite.h + y) };
+	return { (short)x, 
+		(short)y, 
+		(short)(sprites[state]->w + x), 
+		(short)(sprites[state]->h + y) };
 }
 
 void Entity::Draw()
 {
-	this->buffer.Draw(this->x, this->y, this->sprite.w, this->sprite.h, this->sprite.c);
+	buffer.Draw(
+		x, 
+		y, 
+		sprites[state]->w, 
+		sprites[state]->h, 
+		sprites[state]->c);
+		
 }

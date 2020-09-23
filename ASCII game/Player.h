@@ -8,19 +8,24 @@ class Player :
     public Entity
 {
     public: 
-        Player(ConsoleBuffer, Sprite, float, float);
+        Player(ConsoleBuffer, Sprite**, float, float);
         void ProcessInput();
         void Jump();
-        int state;
-        bool onGround;
+        float timer;
+        bool onGround =false;
         float speedX, speedY;
         float nextX, nextY;
         void ProcessNextPos();
         void ProcessCollision(Wall&);
+        void ProcessState();
+        void SetState(int);
+        bool SendState(int state);
         SMALL_RECT GetRectNextX();
         SMALL_RECT GetRectNextY();
-        void Update();
-
+        void UpdatePos();
+        unsigned long GetElapsedMs();
+        LONGLONG freq;
+        LARGE_INTEGER lastUpdateTime;
         
 
     private:

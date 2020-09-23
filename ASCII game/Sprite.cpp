@@ -6,6 +6,7 @@
 
 #include "Sprite.h"
 
+
 std::vector<Sprite> Sprite::FromFile(std::string filename)
 {
 	std::vector<Sprite> result;
