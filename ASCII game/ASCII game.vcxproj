@@ -159,6 +159,11 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="attack_distant1.txt" />
+    <Text Include="attack_distant2.txt" />
+    <Text Include="run.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

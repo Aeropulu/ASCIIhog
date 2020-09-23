@@ -69,4 +69,15 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="attack_distant1.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="attack_distant2.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="run.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -38,8 +38,11 @@ void Player::ProcessInput()
 void Player::ProcessNextPos()
 {
     speedY += 0.01;
-    speedX *= 0.96;
-    speedY *= 0.96;
+    if (onGround)
+        speedX *= 0.96;
+    else
+        speedX *= 0.98;
+    //speedY *= 0.96;
 
     nextX = x + speedX;
     nextY = y + speedY;

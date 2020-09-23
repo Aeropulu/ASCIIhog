@@ -1,5 +1,7 @@
 #pragma once
 #include <Windows.h>
+#include <vector>
+#include <string>
 #include "ConsoleBuffer.h"
 #include "Sprite.h"
 

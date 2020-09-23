@@ -131,6 +131,9 @@ int main()
 
     unsigned long msperframe = 8;
 
+    Sprite::FromFile("run.txt");
+    
+
     while(isRunning)
     {
         
