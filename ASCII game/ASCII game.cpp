@@ -145,8 +145,10 @@ int main()
         
         for (Player& p : players)
         {
-            p.ProcessNextPos();
+
             p.ProcessInput();
+            p.ProcessNextPos();
+            p.onGround = false;
             for (Wall& w : walls)
             {
                 p.ProcessCollision(w);

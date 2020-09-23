@@ -12,11 +12,15 @@ class Player :
         void ProcessInput();
         void Jump();
         int state;
+        bool onGround;
         float speedX, speedY;
         float nextX, nextY;
         void ProcessNextPos();
-        void ProcessCollision(Wall);
+        void ProcessCollision(Wall&);
+        SMALL_RECT GetRectNextX();
+        SMALL_RECT GetRectNextY();
         void Update();
+
         
 
     private:

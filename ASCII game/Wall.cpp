@@ -4,6 +4,8 @@ Wall::Wall(ConsoleBuffer b, int posX, int posY, int const sizeX, int const sizeY
 
 }
 
+
+
 Sprite Wall::GenerateSprite(int const width, int const height) {
 	CHAR_INFO* c = (CHAR_INFO*)malloc(sizeof(CHAR_INFO) * width * height);
 	for (int i = 0; i < width; ++i) 

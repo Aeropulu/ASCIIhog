@@ -11,7 +11,7 @@ public:
 	ConsoleBuffer	buffer;
 	Sprite			sprite;
 	void			Draw();
-	int				Overlap(Entity other);
-	SMALL_RECT		getRect();
+	int				Overlap(SMALL_RECT first, SMALL_RECT second);
+	SMALL_RECT		GetRect();
 };
 

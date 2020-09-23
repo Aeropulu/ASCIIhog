@@ -1,22 +1,20 @@
 #include "Entity.h"
 
 
-int Entity::Overlap(Entity other)
+int Entity::Overlap(SMALL_RECT first, SMALL_RECT second)
 {
-	SMALL_RECT otherRect = other.getRect();
-	SMALL_RECT thisRect = getRect();
 
-	if (otherRect.Left > thisRect.Right || thisRect.Left > otherRect.Right)
+	if (second.Left >= first.Right || first.Left >= second.Right)
 		return 0;
-	if (otherRect.Top > thisRect.Bottom || thisRect.Top > otherRect.Bottom)
+	if (second.Top >= first.Bottom || first.Top >= second.Bottom)
 		return 0;
 
 	return 1;
 }
 
-SMALL_RECT Entity::getRect()
+SMALL_RECT Entity::GetRect()
 {
-	return { (short)x, (short)y, (short)(sprite.w + x), (short)(sprite.h + y)};
+	return { (short)x, (short)y, (short)(sprite.w + x), (short)(sprite.h + y) };
 }
 
 void Entity::Draw()

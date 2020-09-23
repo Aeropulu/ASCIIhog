@@ -18,7 +18,8 @@ void Player::ProcessInput()
     short state = input->GetState();
     if (state & 1)
     {
-        Jump();
+        if (onGround)
+            Jump();
     }
     if (state & 2)
     {
@@ -36,6 +37,7 @@ void Player::ProcessInput()
 
 void Player::ProcessNextPos()
 {
+    speedY += 0.01;
     speedX *= 0.96;
     speedY *= 0.96;
 
@@ -43,15 +45,31 @@ void Player::ProcessNextPos()
     nextY = y + speedY;
 }
 
-void Player::ProcessCollision(Wall w) 
+void Player::ProcessCollision(Wall &w) 
 {
-    if (Overlap(w))
+    if (Entity::Overlap(GetRectNextX(), w.GetRect()))
     {
         speedX = 0;
-        speedY = 0;
         nextX = x;
-        nextY = y;
     }
+
+    if (Entity::Overlap(GetRectNextY(), w.GetRect()))
+    {
+        speedY = 0;
+        nextY = y;
+        onGround = true;
+    }
+}
+
+
+SMALL_RECT Player::GetRectNextX()
+{
+    return { (short)nextX, (short)y, (short)(sprite.w + nextX), (short)(sprite.h + y) };
+}
+
+SMALL_RECT Player::GetRectNextY()
+{
+    return { (short)x, (short)nextY, (short)(sprite.w + x), (short)(sprite.h + nextY) };
 }
 
 void Player::Update()
