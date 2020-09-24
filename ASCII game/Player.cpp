@@ -10,6 +10,8 @@ Player::Player(ConsoleBuffer b, Sprite** s, float posX, float posY) : Entity(b, 
     speedY = 0;
     nextX = x;
     nextY = y;
+    sizeX = 10;
+    sizeY = 7;
     QueryPerformanceCounter(&lastUpdateTime);
     LARGE_INTEGER li_freq;
     QueryPerformanceFrequency(&li_freq);
@@ -19,6 +21,10 @@ Player::Player(ConsoleBuffer b, Sprite** s, float posX, float posY) : Entity(b, 
 
 void Player::ProcessState()
 {
+
+    if (!onGround)
+        SendState(2);
+
     switch(state)
     {
         case 0: // idle state
@@ -87,16 +93,9 @@ bool Player::SendState(int state)
     {
         if (state == 0)
         {
-            SetState(0);
+            //if (onGround)
+            //    SetState(0);
         }
-
-        if (state == 2 && (this->state != 2) && (this->state <= 6) ) // try to jump
-            if (onGround)
-            {
-                Jump();
-                SetState(2);
-                return true;
-            }
 
         if (state == 3)
         {
@@ -123,6 +122,8 @@ void Player::ProcessInput()
     if (state & 1)
     {
         SendState(2); // jump
+        if (onGround)
+            Jump();
     }
     if (state & 2)
     {
@@ -133,11 +134,17 @@ void Player::ProcessInput()
         if (SendState(3)) {
             speedX -= 0.01;
         }
+        else {
+            SendState(0);
+        }
     }
     if (state & 8)
     {
         if (SendState(3)) {
             speedX += 0.01;
+        }
+        else {
+            SendState(0);
         }
     }
 }
@@ -168,19 +175,18 @@ void Player::ProcessCollision(Wall &w)
         speedY = 0;
         nextY = y;
         onGround = true;
-        SendState(0);
     }
 }
 
 
 SMALL_RECT Player::GetRectNextX()
 {
-    return { (short)nextX, (short)y, (short)(sprites[state]->w + nextX), (short)(sprites[state]->h + y) };
+    return { (short)(nextX - (sizeX / 2)), (short)y, (short)(sizeX/2 + nextX), (short)(sizeY + y) };
 }
 
 SMALL_RECT Player::GetRectNextY()
 {
-    return { (short)x, (short)nextY, (short)(sprites[state]->w + x), (short)(sprites[state]->h + nextY) };
+    return { (short)(x - (sizeX / 2)), (short)nextY, (short)(sizeX/2 + x), (short)(sizeY + nextY) };
 }
 
 void Player::UpdatePos()

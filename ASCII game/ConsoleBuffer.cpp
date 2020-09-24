@@ -1,14 +1,23 @@
 #include "ConsoleBuffer.h"
 
-void ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data)
+void ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data, CHAR_INFO key)
 {
 	CHAR_INFO* p = data;
 	for (int i = y; i < y + height; i++)
 	{
 		for (int j = x; j < x + width; j++)
 		{
-			if (j >= 0 && j < w && i >= 0 && i < h)
-				this->buffer[j + i * this->w] = *p++;
+			if (p->Attributes != key.Attributes || p->Char.UnicodeChar != key.Char.UnicodeChar)
+			{
+				if (j >= 0 && j < w && i >= 0 && i < h)
+					this->buffer[j + i * this->w] = *p++;
+			}
+			else
+			{
+				p++;
+			}
+			
+			
 		}
 	}
 }

@@ -183,11 +183,11 @@ int main()
 
 
     std::vector<Wall> walls;
-    Wall wall1 = Wall(buffer, 0, 20, 30, 4);
+    Wall wall1 = Wall(buffer, 20, 20, 30, 4);
     walls.push_back(wall1);
-    Wall wall2 = Wall(buffer, 60, 10, 30, 8);
+    Wall wall2 = Wall(buffer, 80, 10, 30, 8);
     walls.push_back(wall2);
-    Wall wall3 = Wall(buffer, 30, 30, 50, 4);
+    Wall wall3 = Wall(buffer, 50, 30, 50, 4);
     walls.push_back(wall3);
     walls.size();
 
@@ -198,7 +198,13 @@ int main()
     unsigned long ms = 0;
     bool isRunning = true;
     unsigned long msperframe = 8;
-    Sprite::FromFile("run.txt");
+    
+    std::vector<Sprite *> filesprites = Sprite::FromFile("run.txt");
+
+    for (int i = 0; i < 7; i++)
+    {
+        sprites[i] = filesprites[i];
+    }
     
 
     while(isRunning)
@@ -219,7 +225,7 @@ int main()
                 p.ProcessCollision(w);
             }
             p.UpdatePos();
-            p.Draw();
+            p.Draw(p.sprites[0]->c[0]);
         }
         WriteConsoleOutput(hOutput, buffer.buffer, dwBufferSize,
             dwBufferCoord, &rcRegion);

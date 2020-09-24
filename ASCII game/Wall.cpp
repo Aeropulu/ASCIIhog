@@ -1,7 +1,8 @@
 ﻿#include "Wall.h"
 
 Wall::Wall(ConsoleBuffer b, int posX, int posY, int const sizeX, int const sizeY) : Entity(b, GenerateSprite(sizeX, sizeY), posX, posY) {
-
+	this->sizeX = sizeX;
+	this->sizeY = sizeY;
 }
 
 

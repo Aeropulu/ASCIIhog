@@ -12,6 +12,6 @@ class Sprite
 		CHAR_INFO*  c;
 		int w, h;
 
-		static std::vector<Sprite> FromFile(std::string);
+		static std::vector<Sprite *> FromFile(std::string);
 };
 
