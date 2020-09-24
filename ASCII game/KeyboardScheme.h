@@ -5,7 +5,8 @@
 class KeyboardScheme : public InputScheme
 {
 	public:
-		KeyboardScheme() : key_up(VK_UP), key_down(VK_DOWN), key_left(VK_LEFT), key_right(VK_RIGHT) {};
+		KeyboardScheme(int up = VK_UP, int down = VK_DOWN, int left = VK_LEFT, int right = VK_RIGHT)
+			: key_up(up), key_down(down), key_left(left), key_right(right) {};
 		short GetState();
 
 	private:

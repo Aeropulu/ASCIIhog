@@ -3,9 +3,12 @@
 #include "KeyboardScheme.h"
 #include "Wall.h"
 
-Player::Player(ConsoleBuffer b, Sprite** s, float posX, float posY) : Entity(b, s, posX, posY)
+Player::Player(ConsoleBuffer b, Sprite** s, float posX, float posY, InputScheme *scheme) : Entity(b, s, posX, posY)
 {
-    this->input = new KeyboardScheme();
+    if (!scheme)
+        input = new KeyboardScheme();
+    else
+        input = scheme;
     speedX = 0;
     speedY = 0;
     nextX = x;
@@ -89,29 +92,26 @@ void Player::SetState(int state)
 
 bool Player::SendState(int state)
 {
-    if (this->state != state)
+    
+    if (state == 0)
     {
-        if (state == 0)
+        //if (onGround)
+        //    SetState(0);
+    }
+
+    if (state == 3)
+    {
+        bool res = false;
+
+        if (this->state >= 2 && this->state <= 6)
         {
-            //if (onGround)
-            //    SetState(0);
+            return true;
         }
-
-        if (state == 3)
+        if (this->state == 0 || this->state == 1)
         {
-            bool res = false;
-
-            if (this->state >= 2 && this->state <= 6)
-            {
-                return true;
-            }
-            if (this->state == 0 || this->state == 1)
-            {
-                SetState(3);
-                return true;
-            }
+            SetState(3);
+            return true;
         }
-
     }
     return false;
 }
@@ -132,7 +132,7 @@ void Player::ProcessInput()
     if (state & 4)
     {
         if (SendState(3)) {
-            speedX -= 0.01;
+            speedX -= 0.04;
         }
         else {
             SendState(0);
@@ -141,7 +141,7 @@ void Player::ProcessInput()
     if (state & 8)
     {
         if (SendState(3)) {
-            speedX += 0.01;
+            speedX += 0.04;
         }
         else {
             SendState(0);
@@ -153,9 +153,9 @@ void Player::ProcessNextPos()
 {
     speedY += 0.01;
     if (onGround)
-        speedX *= 0.96;
+        speedX *= 0.90;
     else
-        speedX *= 0.98;
+        speedX *= 0.92;
     //speedY *= 0.96;
 
     nextX = x + speedX;

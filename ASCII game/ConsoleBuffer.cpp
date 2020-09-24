@@ -1,27 +1,42 @@
 #include "ConsoleBuffer.h"
 
-void ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data, CHAR_INFO key)
+void ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data, CHAR_INFO key, bool flipped)
 {
 	CHAR_INFO* p = data;
-	for (int i = y; i < y + height; i++)
+
+	if (!flipped)
 	{
-		for (int j = x; j < x + width; j++)
+		for (int i = y; i < y + height; i++)
 		{
-			if (p->Attributes != key.Attributes || p->Char.UnicodeChar != key.Char.UnicodeChar)
+			for (int j = x; j < x + width; j++)
 			{
-				if (j >= 0 && j < w && i >= 0 && i < h)
-					this->buffer[j + i * this->w] = *p++;
-			}
-			else
-			{
+				DrawIntern(p, key, i, j);
 				p++;
 			}
-			
-			
 		}
 	}
+	else
+	{
+		for (int i = y; i < y + height; i++)
+		{
+			for (int j = x + width -1; j >= x ; j--)
+			{
+				DrawIntern(p, key, i, j);
+				p++;
+			}
+		}
+	}
+	
 }
 
+void ConsoleBuffer::DrawIntern(CHAR_INFO* p, CHAR_INFO key, int i, int j)
+{
+	if (p->Attributes != key.Attributes || p->Char.UnicodeChar != key.Char.UnicodeChar)
+	{
+		if (j >= 0 && j < w && i >= 0 && i < h)
+			this->buffer[j + i * this->w] = *p;
+	}
+}
 void ConsoleBuffer::Clear()
 {
 	for (int i = 0; i < this->h; i++)

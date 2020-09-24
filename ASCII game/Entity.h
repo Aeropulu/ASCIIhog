@@ -11,6 +11,7 @@ public:
 	Entity(ConsoleBuffer b, Sprite** s, float posX, float posY) : buffer(b), sprites(s), x(posX), y(posY) { };
 	float			x, y;
 	int				state = 0;
+	bool			flipped = false;
 	int				sizeX, sizeY;
 	ConsoleBuffer	buffer;
 	Sprite**		sprites;

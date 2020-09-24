@@ -8,7 +8,7 @@ class Player :
     public Entity
 {
     public: 
-        Player(ConsoleBuffer, Sprite**, float, float);
+        Player(ConsoleBuffer, Sprite**, float, float, InputScheme *input = nullptr);
         void ProcessInput();
         void Jump();
         float timer;

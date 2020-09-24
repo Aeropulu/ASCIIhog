@@ -22,12 +22,13 @@ SMALL_RECT Entity::GetRect()
 
 void Entity::Draw(CHAR_INFO key)
 {
+
 	buffer.Draw(
 		x-(sprites[state]->w/2), 
 		y, 
 		sprites[state]->w, 
 		sprites[state]->h, 
 		sprites[state]->c,
-		key);
+		key, flipped);
 		
 }

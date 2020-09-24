@@ -180,6 +180,9 @@ int main()
     std::vector<Player> players;
     Player player = Player(buffer, sprites, 10, 5);
     players.push_back(player);
+    InputScheme *input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
+    Player player2 = Player(buffer, sprites, 40, 20, input2);
+    players.push_back(player2);
 
 
     std::vector<Wall> walls;
@@ -214,6 +217,11 @@ int main()
         {
             w.Draw();
         }
+
+        
+        players[0].flipped = players[0].x > players[1].x;
+        players[1].flipped = !players[0].flipped;
+
         for (Player& p : players)
         {
             p.ProcessInput();
