@@ -32,48 +32,49 @@ void Player::ProcessState()
     {
         case 0: // idle state
             break;
-        case 1: // idle 2 : recovery time
+        case 1: // recovery time
             if (GetElapsedMs() >= 400)
                 SetState(0);
             break;
         case 2: // falling
+            SetState(2);
             break;
         case 3: // running frame 1
-            if (GetElapsedMs() >= 300)
+            if (GetElapsedMs() >= 150)
             {
                 SetState(4);
             }
             break;
         case 4: // running frame 2
-            if (GetElapsedMs() >= 300)
+            if (GetElapsedMs() >= 150)
             {
                 SetState(5);
             }
             break;
         case 5: // running frame 3
-            if (GetElapsedMs() >= 300)
+            if (GetElapsedMs() >= 150)
             {
                 SetState(6);
             }
             break;
         case 6: // running frame 4
-            if (GetElapsedMs() >= 300)
+            if (GetElapsedMs() >= 150)
             {
                 SetState(3);
             }
             break;
         case 7: // attack frame 1
-            if (GetElapsedMs() >= 500)
+            if (GetElapsedMs() >= 300)
                 SetState(8);
             break;
         case 8: // attack frame 2
-            if (GetElapsedMs() >= 300)
-                SetState(0);
+            if (GetElapsedMs() >= 200)
+                SetState(1);
             break;
         case 9: // attack falling 
             break;
         case 10: // blocking
-            if (GetElapsedMs() >= 700)
+            if (GetElapsedMs() >= 300)
                 SetState(0);
             break;
         case 11: // recovery ?
@@ -90,63 +91,85 @@ void Player::SetState(int state)
     this->state = state;
 }
 
-bool Player::SendState(int state)
+bool Player::SendState(int newState)
 {
+    if (this->state != 1 && this->state <= 6)
+    {
+        if (newState == 0)
+        {
+            SetState(0);
+        }
+
+        if (newState == 1)
+        {
+            SetState(1);
+        }
+
+        if (newState == 2)
+        {
+            SetState(2);
+            return true;
+        }
+
+        if (newState == 3)
+        {
+
+            if (this->state >= 2 && this->state <= 6)
+            {
+                return true;
+            }
+            if (this->state == 0)
+            {
+                SetState(3);
+                return true;
+            }
+        }
+
+        if (newState == 7 && this->state != 2)
+        {
+            SetState(7);
+            return true;
+        }
+    }
     
-    if (state == 0)
-    {
-        //if (onGround)
-        //    SetState(0);
-    }
-
-    if (state == 3)
-    {
-        bool res = false;
-
-        if (this->state >= 2 && this->state <= 6)
-        {
-            return true;
-        }
-        if (this->state == 0 || this->state == 1)
-        {
-            SetState(3);
-            return true;
-        }
-    }
     return false;
 }
 
 void Player::ProcessInput()
 {
-    short state = input->GetState();
-    if (state & 1)
+    short InputState = input->GetState();
+    if (InputState & 1)
     {
-        SendState(2); // jump
-        if (onGround)
+        if (onGround && state != 1 && state <= 6)
+        {
             Jump();
+            SendState(2);
+        }
     }
-    if (state & 2)
+    if (InputState & 2)
     {
         // useless to "go down"
+        //attack instead
+        SendState(7);
     }
-    if (state & 4)
+
+    bool walking = false;
+    if (InputState & 4)
     {
         if (SendState(3)) {
             speedX -= 0.04;
-        }
-        else {
-            SendState(0);
+            walking = true;
         }
     }
-    if (state & 8)
+    if (InputState & 8)
     {
         if (SendState(3)) {
             speedX += 0.04;
-        }
-        else {
-            SendState(0);
+            walking = true;
         }
     }
+    if (!walking || (onGround && this->state == 2)) // if we stop walking or touch the ground
+        SendState(0);
 }
 
 void Player::ProcessNextPos()

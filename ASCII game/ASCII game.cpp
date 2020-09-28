@@ -204,7 +204,7 @@ int main()
     
     std::vector<Sprite *> filesprites = Sprite::FromFile("run.txt");
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 9; i++)
     {
         sprites[i] = filesprites[i];
     }
@@ -235,6 +235,7 @@ int main()
             p.UpdatePos();
             p.Draw(p.sprites[0]->c[0]);
         }
+
         WriteConsoleOutput(hOutput, buffer.buffer, dwBufferSize,
             dwBufferCoord, &rcRegion);
         ms = timer.getElapsedMs(true);
