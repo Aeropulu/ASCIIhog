@@ -225,7 +225,7 @@ void Player::Jump()
 
 void Player::Die()
 {
-    Jump();
+    SetState(11);
 }
 
 unsigned long Player::GetElapsedMs()

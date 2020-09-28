@@ -74,14 +74,14 @@ public:
 #endif
 
 void DrawPlayers(std::vector<Player>* playerVector) {
-    std::vector<Player> players = *playerVector;
+    std::vector<Player> &players = *playerVector;
     players[0].Draw(players[0].sprites[0]->c[0]);
     std::pair<bool, bool> collisions = players[1].Draw(players[0].sprites[0]->c[0]);
 
     if (collisions.first)
-        players[0].Die();
-    if (collisions.second)
         players[1].Die();
+    if (collisions.second)
+        players[0].Die();
 
 }
 
@@ -140,7 +140,7 @@ int main()
     Player player2 = Player(buffer, sprites, 40, 20, input2);
     players.push_back(player2);
 
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < 12; i++)
     {
         sprites[i] = filesprites[i];
     }
