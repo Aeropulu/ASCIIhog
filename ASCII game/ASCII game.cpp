@@ -21,6 +21,7 @@ const int SCREEN_HEIGHT = 40;
 
 #include <windows.h>
 #include "Wall.h"
+#include "ASCII game.h"
 
 class NYTimer
 {
@@ -72,6 +73,18 @@ public:
 
 #endif
 
+void DrawPlayers(std::vector<Player>* playerVector) {
+    std::vector<Player> players = *playerVector;
+    players[0].Draw(players[0].sprites[0]->c[0]);
+    std::pair<bool, bool> collisions = players[1].Draw(players[0].sprites[0]->c[0]);
+
+    if (collisions.first)
+        players[0].Die();
+    if (collisions.second)
+        players[1].Die();
+
+}
+
 int main()
 {
     HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
@@ -96,93 +109,6 @@ int main()
     
 
 
-    
-    CHAR_INFO frame1[4];
-    frame1[0].Char.UnicodeChar = 'H';
-    frame1[0].Attributes = 0x01;
-    frame1[1].Char.UnicodeChar = 'i';
-    frame1[1].Attributes = 0x01;
-    frame1[2].Char.UnicodeChar = '!';
-    frame1[2].Attributes = 0x01;
-    frame1[3].Char.UnicodeChar = '!';
-    frame1[3].Attributes = 0x01;
-    Sprite* sprite1 = new Sprite(frame1, 2, 2);
-    CHAR_INFO frame2[4];
-    frame2[0].Char.UnicodeChar = 'H';
-    frame2[0].Attributes = 0x02;
-    frame2[1].Char.UnicodeChar = 'i';
-    frame2[1].Attributes = 0x02;
-    frame2[2].Char.UnicodeChar = '!';
-    frame2[2].Attributes = 0x02;
-    frame2[3].Char.UnicodeChar = '!';
-    frame2[3].Attributes = 0x02;
-    Sprite* sprite2 = new Sprite(frame2, 2, 2);
-    CHAR_INFO frame3[4];
-    frame3[0].Char.UnicodeChar = 'H';
-    frame3[0].Attributes = 0x03;
-    frame3[1].Char.UnicodeChar = 'i';
-    frame3[1].Attributes = 0x03;
-    frame3[2].Char.UnicodeChar = '!';
-    frame3[2].Attributes = 0x03;
-    frame3[3].Char.UnicodeChar = '!';
-    frame3[3].Attributes = 0x03;
-    Sprite* sprite3 = new Sprite(frame3, 2, 2);
-    CHAR_INFO frame4[4];
-    frame4[0].Char.UnicodeChar = 'H';
-    frame4[0].Attributes = 0x04;
-    frame4[1].Char.UnicodeChar = 'i';
-    frame4[1].Attributes = 0x04;
-    frame4[2].Char.UnicodeChar = '!';
-    frame4[2].Attributes = 0x04;
-    frame4[3].Char.UnicodeChar = '!';
-    frame4[3].Attributes = 0x04;
-    Sprite* sprite4 = new Sprite(frame4, 2, 2);
-    CHAR_INFO frame5[4];
-    frame5[0].Char.UnicodeChar = 'H';
-    frame5[0].Attributes = 0x05;
-    frame5[1].Char.UnicodeChar = 'i';
-    frame5[1].Attributes = 0x05;
-    frame5[2].Char.UnicodeChar = '!';
-    frame5[2].Attributes = 0x05;
-    frame5[3].Char.UnicodeChar = '!';
-    frame5[3].Attributes = 0x05;
-    Sprite* sprite5 = new Sprite(frame5, 2, 2);
-    CHAR_INFO frame6[4];
-    frame6[0].Char.UnicodeChar = 'H';
-    frame6[0].Attributes = 0x06;
-    frame6[1].Char.UnicodeChar = 'i';
-    frame6[1].Attributes = 0x06;
-    frame6[2].Char.UnicodeChar = '!';
-    frame6[2].Attributes = 0x06;
-    frame6[3].Char.UnicodeChar = '!';
-    frame6[3].Attributes = 0x06;
-    Sprite* sprite6 = new Sprite(frame6, 2, 2);
-    CHAR_INFO frame7[4];
-    frame7[0].Char.UnicodeChar = 'H';
-    frame7[0].Attributes = 0x07;
-    frame7[1].Char.UnicodeChar = 'i';
-    frame7[1].Attributes = 0x07;
-    frame7[2].Char.UnicodeChar = '!';
-    frame7[2].Attributes = 0x07;
-    frame7[3].Char.UnicodeChar = '!';
-    frame7[3].Attributes = 0x07;
-    Sprite* sprite7 = new Sprite(frame7, 2, 2);
-
-    Sprite* sprites[7];
-    sprites[0] = sprite1;
-    sprites[1] = sprite2;
-    sprites[2] = sprite3;
-    sprites[3] = sprite4;
-    sprites[4] = sprite5;
-    sprites[5] = sprite6;
-    sprites[6] = sprite7;
-
-    std::vector<Player> players;
-    Player player = Player(buffer, sprites, 10, 5);
-    players.push_back(player);
-    InputScheme *input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
-    Player player2 = Player(buffer, sprites, 40, 20, input2);
-    players.push_back(player2);
 
 
     std::vector<Wall> walls;
@@ -202,9 +128,19 @@ int main()
     bool isRunning = true;
     unsigned long msperframe = 8;
     
+
+    Sprite* sprites[11];
     std::vector<Sprite *> filesprites = Sprite::FromFile("run.txt");
 
-    for (int i = 0; i < 9; i++)
+
+    std::vector<Player> players;
+    Player player = Player(buffer, sprites, 10, 5);
+    players.push_back(player);
+    InputScheme* input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
+    Player player2 = Player(buffer, sprites, 40, 20, input2);
+    players.push_back(player2);
+
+    for (int i = 0; i < 11; i++)
     {
         sprites[i] = filesprites[i];
     }
@@ -233,8 +169,8 @@ int main()
                 p.ProcessCollision(w);
             }
             p.UpdatePos();
-            p.Draw(p.sprites[0]->c[0]);
         }
+        DrawPlayers(&players);
 
         WriteConsoleOutput(hOutput, buffer.buffer, dwBufferSize,
             dwBufferCoord, &rcRegion);
@@ -245,6 +181,8 @@ int main()
         }
     }
 }
+
+
 
 // Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
 // Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage

@@ -20,15 +20,13 @@ SMALL_RECT Entity::GetRect()
 		(short)(sprites[state]->h + y) };
 }
 
-void Entity::Draw(CHAR_INFO key)
+std::pair<bool, bool> Entity::Draw(CHAR_INFO key)
 {
-
-	buffer.Draw(
+	return buffer.Draw(
 		x-(sprites[state]->w/2), 
 		y, 
 		sprites[state]->w, 
 		sprites[state]->h, 
 		sprites[state]->c,
 		key, flipped);
-		
 }

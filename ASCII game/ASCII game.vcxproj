@@ -150,6 +150,7 @@
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ASCII game.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HitBox.h" />
@@ -160,8 +161,6 @@
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="attack_distant1.txt" />
-    <Text Include="attack_distant2.txt" />
     <Text Include="run.txt" />
   </ItemGroup>
   <ItemGroup>

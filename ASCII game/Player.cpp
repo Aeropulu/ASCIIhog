@@ -77,7 +77,7 @@ void Player::ProcessState()
             if (GetElapsedMs() >= 300)
                 SetState(0);
             break;
-        case 11: // recovery ?
+        case 11: // dead ?
             break;
     }
 
@@ -221,6 +221,11 @@ void Player::UpdatePos()
 void Player::Jump()
 {
     this->speedY = -0.5;
+}
+
+void Player::Die()
+{
+    Jump();
 }
 
 unsigned long Player::GetElapsedMs()

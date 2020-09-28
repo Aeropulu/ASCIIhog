@@ -11,8 +11,9 @@ class Player :
         Player(ConsoleBuffer, Sprite**, float, float, InputScheme *input = nullptr);
         void ProcessInput();
         void Jump();
+        void Die();
         float timer;
-        bool onGround =false;
+        bool onGround = false;
         float speedX, speedY;
         float nextX, nextY;
         void ProcessNextPos();
