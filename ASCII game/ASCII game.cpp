@@ -76,7 +76,7 @@ public:
 void DrawPlayers(std::vector<Player>* playerVector) {
     std::vector<Player> &players = *playerVector;
     players[0].Draw(players[0].sprites[0]->c[0]);
-    std::pair<bool, bool> collisions = players[1].Draw(players[0].sprites[0]->c[0]);
+    std::pair<bool, bool> collisions = players[1].Draw(players[0].sprites[0]->c[0], true);
 
     if (collisions.first)
         players[1].Die();

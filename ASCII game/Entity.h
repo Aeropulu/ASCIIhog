@@ -15,7 +15,7 @@ public:
 	int				sizeX, sizeY;
 	ConsoleBuffer	buffer;
 	Sprite**		sprites;
-	std::pair<bool, bool>			Draw(CHAR_INFO key = { ' ', 0 });
+	std::pair<bool, bool>			Draw(CHAR_INFO key = { ' ', 0 }, bool testHit = false);
 	int				Overlap(SMALL_RECT first, SMALL_RECT second);
 	SMALL_RECT		GetRect();
 };

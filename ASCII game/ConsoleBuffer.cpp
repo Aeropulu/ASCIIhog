@@ -1,7 +1,7 @@
 #include "ConsoleBuffer.h"
 
 // returns a pair of bool telling if the entity {self, other} are being drawn over the char "charCollision"
-std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data, CHAR_INFO key, bool flipped, char charCollision)
+std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, CHAR_INFO* data, CHAR_INFO key, bool flipped, bool testHit, char charCollision)
 {
 	CHAR_INFO* p = data;
 
@@ -12,11 +12,17 @@ std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, C
 		{
 			for (int j = x; j < x + width; j++)
 			{
-				std::pair<bool, bool> tmp = DrawIntern(p, key, charCollision, i, j);
-				if (tmp.first)
-					resultCollision.first = true;
-				if (tmp.second)
-					resultCollision.second = true;
+				if (testHit)
+				{
+					std::pair<bool, bool> tmp = DrawIntern(p, key, charCollision, i, j, true);
+					if (tmp.first)
+						resultCollision.first = true;
+					if (tmp.second)
+						resultCollision.second = true;
+				} else 
+				{
+					DrawIntern(p, key, charCollision, i, j, false);
+				}
 				p++;
 			}
 		}
@@ -27,11 +33,17 @@ std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, C
 		{
 			for (int j = x + width -1; j >= x ; j--)
 			{
-				std::pair<bool, bool> tmp = resultCollision = DrawIntern(p, key, charCollision, i, j);
-				if (tmp.first)
-					resultCollision.first = true;
-				if (tmp.second)
-					resultCollision.second = true;
+				if (testHit)
+				{
+					std::pair<bool, bool> tmp = resultCollision = DrawIntern(p, key, charCollision, i, j, true);
+					if (tmp.first)
+						resultCollision.first = true;
+					if (tmp.second)
+						resultCollision.second = true;
+				} else 
+				{
+					DrawIntern(p, key, charCollision, i, j, false);
+				}
 				p++;
 			}
 		}
@@ -40,27 +52,31 @@ std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, C
 	
 }
 
-std::pair<bool, bool> ConsoleBuffer::DrawIntern(CHAR_INFO* p, CHAR_INFO key, char charCollision, int i, int j)
+std::pair<bool, bool> ConsoleBuffer::DrawIntern(CHAR_INFO* p, CHAR_INFO key, char charCollision, int i, int j, bool testHit)
 {
 	std::pair<bool, bool> result = { false, false };
 	if (p->Attributes != key.Attributes || p->Char.UnicodeChar != key.Char.UnicodeChar)
 	{
 		if (j >= 0 && j < w && i >= 0 && i < h)
 		{
-			char currentChar = this->buffer[j + i * this->w].Char.UnicodeChar;
-			if ( currentChar!= ' ' && currentChar != '-') // ignore white space and blade
+			if (testHit)
 			{
-				char newChar = p->Char.UnicodeChar;
-				if (currentChar == '+') { // if buffer has the charCollision
-					if (newChar != ' ' && newChar != '-' && newChar != charCollision) // if charCollision is inside the entity being drawn
-						result.first = true; //then self is overlaping the charCollision char
-				} 
-				else // else then it is the other's char
+				char currentChar = this->buffer[j + i * this->w].Char.UnicodeChar;
+				if (currentChar != ' ' && currentChar != '-') // ignore white space and blade
 				{
-					if (newChar == charCollision) // if self char is the charCollision
-						result.second = true;
+					char newChar = p->Char.UnicodeChar;
+					if (currentChar == '+') { // if buffer has the charCollision
+						if (newChar != ' ' && newChar != '-' && newChar != charCollision) // if charCollision is inside the entity being drawn
+							result.first = true; //then self is overlaping the charCollision char
+					}
+					else // else then it is the other's char
+					{
+						if (newChar == charCollision) // if self char is the charCollision
+							result.second = true;
+					}
 				}
 			}
+			
 
 			this->buffer[j + i * this->w] = *p;
 		}
