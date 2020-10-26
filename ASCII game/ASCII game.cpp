@@ -73,6 +73,12 @@ public:
 
 #endif
 
+void ResetPlayers(std::vector<Player>* playerVector) {
+    std::vector<Player>& players = *playerVector;
+    players[0].Reset();
+    players[1].Reset();
+}
+
 void DrawPlayers(std::vector<Player>* playerVector) {
     std::vector<Player> &players = *playerVector;
     players[0].Draw(players[0].sprites[0]->c[0]);
@@ -82,7 +88,6 @@ void DrawPlayers(std::vector<Player>* playerVector) {
         players[1].Die();
     if (collisions.second)
         players[0].Die();
-
 }
 
 int main()
@@ -107,9 +112,6 @@ int main()
         dwBufferCoord, &rcRegion);
     ConsoleBuffer buffer = ConsoleBuffer((CHAR_INFO*)initBuffer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
-
-
-
 
     std::vector<Wall> walls;
     Wall wall1 = Wall(buffer, 20, 20, 30, 4);
@@ -180,6 +182,9 @@ int main()
             Sleep(msperframe - ms);
         }
     }
+
+
+
 }
 
 

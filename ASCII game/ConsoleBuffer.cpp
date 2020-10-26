@@ -35,7 +35,7 @@ std::pair<bool, bool> ConsoleBuffer::Draw(int x, int y, int width, int height, C
 			{
 				if (testHit)
 				{
-					std::pair<bool, bool> tmp = resultCollision = DrawIntern(p, key, charCollision, i, j, true);
+					std::pair<bool, bool> tmp = DrawIntern(p, key, charCollision, i, j, true);
 					if (tmp.first)
 						resultCollision.first = true;
 					if (tmp.second)

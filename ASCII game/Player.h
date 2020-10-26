@@ -12,6 +12,7 @@ class Player :
         void ProcessInput();
         void Jump();
         void Die();
+        void Reset();
         float timer;
         bool onGround = false;
         float speedX, speedY;

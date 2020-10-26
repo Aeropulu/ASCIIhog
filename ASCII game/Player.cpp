@@ -11,6 +11,8 @@ Player::Player(ConsoleBuffer b, Sprite** s, float posX, float posY, InputScheme 
         input = scheme;
     speedX = 0;
     speedY = 0;
+    startX = x;
+    startY = y;
     nextX = x;
     nextY = y;
     sizeX = 10;
@@ -83,6 +85,7 @@ void Player::ProcessState()
 
 }
 
+//hard Set, no checks
 void Player::SetState(int state)
 {
     LARGE_INTEGER timeNow;
@@ -91,6 +94,7 @@ void Player::SetState(int state)
     this->state = state;
 }
 
+//event Occured
 bool Player::SendState(int newState)
 {
     if (this->state != 1 && this->state <= 6)
@@ -226,6 +230,17 @@ void Player::Jump()
 void Player::Die()
 {
     SetState(11);
+}
+
+void Player::Reset()
+{
+    x = startX;
+    y = startY;
+    speedX = 0;
+    speedY = 0;
+    nextX = x;
+    nextY = y;
+    SetState(0);
 }
 
 unsigned long Player::GetElapsedMs()
