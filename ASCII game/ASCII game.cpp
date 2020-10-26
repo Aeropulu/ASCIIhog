@@ -79,7 +79,7 @@ void ResetPlayers(std::vector<Player>* playerVector) {
     players[1].Reset();
 }
 
-void DrawPlayers(std::vector<Player>* playerVector) {
+bool DrawPlayers(std::vector<Player>* playerVector) {
     std::vector<Player> &players = *playerVector;
     players[0].Draw(players[0].sprites[0]->c[0]);
     std::pair<bool, bool> collisions = players[1].Draw(players[0].sprites[0]->c[0], true);
@@ -88,6 +88,11 @@ void DrawPlayers(std::vector<Player>* playerVector) {
         players[1].Die();
     if (collisions.second)
         players[0].Die();
+
+    if (collisions.first || collisions.second) {
+        return true;
+    }
+    return false;
 }
 
 int main()
@@ -129,9 +134,14 @@ int main()
     unsigned long ms = 0;
     bool isRunning = true;
     unsigned long msperframe = 8;
+
+
+    NYTimer timerReset = NYTimer(); //timer before reset
+    bool isReseting = false; //countdown to reset is engaged
+    unsigned long resetDelay = 2000;
     
 
-    Sprite* sprites[11];
+    Sprite* sprites[12];
     std::vector<Sprite *> filesprites = Sprite::FromFile("run.txt");
 
 
@@ -172,7 +182,13 @@ int main()
             }
             p.UpdatePos();
         }
-        DrawPlayers(&players);
+
+        // if one player died
+        if (DrawPlayers(&players)) {
+            //start the reset countdown
+            isReseting = true;
+            timerReset.start();
+        }
 
         WriteConsoleOutput(hOutput, buffer.buffer, dwBufferSize,
             dwBufferCoord, &rcRegion);
@@ -180,6 +196,15 @@ int main()
         if (ms < msperframe)
         {
             Sleep(msperframe - ms);
+        }
+
+        if (isReseting) 
+        {
+            if (timerReset.getElapsedMs() > resetDelay) 
+            {
+                ResetPlayers(&players);
+                isReseting = false;
+            }
         }
     }
 
