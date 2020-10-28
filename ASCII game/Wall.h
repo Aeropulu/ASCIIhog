@@ -4,7 +4,9 @@ class Wall :
     public Entity
 {
     public:
-        Wall(ConsoleBuffer, int, int, int, int);
+        Wall(ConsoleBuffer, float, float, int, int);
         Sprite** GenerateSprite(int, int);
+        ~Wall();
+        
 };
 

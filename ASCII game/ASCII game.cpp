@@ -99,7 +99,6 @@ int main()
 {
     HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
     
-
     COORD dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
     COORD dwBufferCoord = { 0, 0 };
     SMALL_RECT rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
@@ -118,14 +117,13 @@ int main()
     ConsoleBuffer buffer = ConsoleBuffer((CHAR_INFO*)initBuffer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
 
-    std::vector<Wall> walls;
-    Wall wall1 = Wall(buffer, 20, 20, 30, 4);
+    std::vector<Wall*> walls;
+    Wall* wall1 = new Wall(buffer, 20, 20, 30, 4);
     walls.push_back(wall1);
-    Wall wall2 = Wall(buffer, 80, 10, 30, 8);
+    Wall* wall2 = new Wall(buffer, 80, 10, 30, 8);
     walls.push_back(wall2);
-    Wall wall3 = Wall(buffer, 50, 30, 50, 4);
+    Wall* wall3 = new Wall(buffer, 50, 30, 50, 4);
     walls.push_back(wall3);
-    walls.size();
 
     //InputScheme* input = new KeyboardScheme();
 
@@ -161,9 +159,9 @@ int main()
     while(isRunning)
     {
         buffer.Clear();
-        for (Wall& w : walls)
+        for (Wall *w : walls)
         {
-            w.Draw();
+            (*w).Draw();
         }
 
         
@@ -176,9 +174,9 @@ int main()
             p.ProcessState();
             p.ProcessNextPos();
             p.onGround = false;
-            for (Wall& w : walls)
+            for (Wall* w : walls)
             {
-                p.ProcessCollision(w);
+                p.ProcessCollision(*w);
             }
             p.UpdatePos();
         }
@@ -208,8 +206,21 @@ int main()
         }
     }
 
+    //free the memory, not sure how to make it do it 
+    for (Wall* w : walls)
+    {
+        delete (w);
+    }
 
-
+    for (Sprite* s : sprites)
+    {
+        free(s->c);
+    }
+    for (Sprite* s : sprites)
+    {
+        delete (s);
+    }
+    
 }
 
 

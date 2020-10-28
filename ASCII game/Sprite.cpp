@@ -54,4 +54,3 @@ std::vector<Sprite *> Sprite::FromFile(std::string filename)
 	
 	return result;
 }
-

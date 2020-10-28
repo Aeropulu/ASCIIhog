@@ -161,14 +161,14 @@ void Player::ProcessInput()
     if (InputState & 4)
     {
         if (SendState(3)) {
-            speedX -= 0.04;
+            speedX -= 0.04f;
             walking = true;
         }
     }
     if (InputState & 8)
     {
         if (SendState(3)) {
-            speedX += 0.04;
+            speedX += 0.04f;
             walking = true;
         }
     }
@@ -180,10 +180,9 @@ void Player::ProcessNextPos()
 {
     speedY += 0.01;
     if (onGround)
-        speedX *= 0.90;
+        speedX *= 0.90f;
     else
-        speedX *= 0.92;
-    //speedY *= 0.96;
+        speedX *= 0.92f;
 
     nextX = x + speedX;
     nextY = y + speedY;

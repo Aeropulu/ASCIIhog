@@ -1,11 +1,13 @@
 ﻿#include "Wall.h"
 
-Wall::Wall(ConsoleBuffer b, int posX, int posY, int const sizeX, int const sizeY) : Entity(b, GenerateSprite(sizeX, sizeY), posX, posY) {
+Wall::Wall(ConsoleBuffer b, float posX, float posY, int const sizeX, int const sizeY) : Entity(b, GenerateSprite(sizeX, sizeY), posX, posY) {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
 }
 
-
+Wall::~Wall() {
+	free(sprites[0]); // "Wall" creates his own Sprite so he needs to handle the freeing of the memory, there is only one sprite in a Wall. Doesn't work
+}
 
 Sprite** Wall::GenerateSprite(int const width, int const height) {
 	CHAR_INFO* c = (CHAR_INFO*)malloc(sizeof(CHAR_INFO) * width * height);
