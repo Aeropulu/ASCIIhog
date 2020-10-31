@@ -139,21 +139,29 @@ int main()
     unsigned long resetDelay = 2000;
     
 
-    Sprite* sprites[12];
-    std::vector<Sprite *> filesprites = Sprite::FromFile("run.txt");
-
-
-    std::vector<Player> players;
-    Player player = Player(buffer, sprites, 10, 5);
-    players.push_back(player);
-    InputScheme* input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
-    Player player2 = Player(buffer, sprites, 40, 20, input2);
-    players.push_back(player2);
+    WORD color = FOREGROUND_RED;
+    std::map<char, WORD>& redscheme = *new std::map<char, WORD>{ {'%', color},{'@', color}, {'#', color | FOREGROUND_INTENSITY}, {'&', color | FOREGROUND_INTENSITY}, {',', FOREGROUND_INTENSITY} };
+    color = FOREGROUND_BLUE;
+    std::map<char, WORD>& bluescheme = *new std::map<char, WORD>{ {'%', color},{'@', color}, {'#', color | FOREGROUND_INTENSITY}, {'&', color | FOREGROUND_INTENSITY}, {',', FOREGROUND_INTENSITY} };
+    Sprite* sprites_red[12];
+    Sprite* sprites_blue[12];
+    std::vector<Sprite *> filesprites_red = Sprite::FromFile("run.txt", redscheme);
+    std::vector<Sprite*> filesprites_blue = Sprite::FromFile("run.txt", bluescheme);
 
     for (int i = 0; i < 12; i++)
     {
-        sprites[i] = filesprites[i];
+        sprites_red[i] = filesprites_red[i];
+        sprites_blue[i] = filesprites_blue[i];
     }
+
+    std::vector<Player> players;
+    Player player = Player(buffer, sprites_red, 10, 5);
+    players.push_back(player);
+    InputScheme* input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
+    Player player2 = Player(buffer, sprites_blue, 40, 20, input2);
+    players.push_back(player2);
+
+    
     
 
     while(isRunning)
@@ -212,11 +220,11 @@ int main()
         delete (w);
     }
 
-    for (Sprite* s : sprites)
+    for (Sprite* s : sprites_red)
     {
         free(s->c);
     }
-    for (Sprite* s : sprites)
+    for (Sprite* s : sprites_red)
     {
         delete (s);
     }

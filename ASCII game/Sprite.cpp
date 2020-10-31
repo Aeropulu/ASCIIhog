@@ -54,3 +54,23 @@ std::vector<Sprite *> Sprite::FromFile(std::string filename)
 	
 	return result;
 }
+
+std::vector<Sprite *> Sprite::FromFile(std::string filename, const std::map<char, WORD> &colorscheme)
+{
+	std::vector<Sprite*> sprites = Sprite::FromFile(filename);
+	for (Sprite* s : sprites)
+	{
+		for (int i = 0; i < s->h; i++)
+		{
+			for (int j = 0; j < s->w; j++)
+			{
+				char c = s->c[j + i * s->w].Char.UnicodeChar;
+				if (colorscheme.find(c) != colorscheme.end())
+				{
+					s->c[j + i * s->w].Attributes = colorscheme.at(c);
+				}
+			}
+		}
+	}
+	return sprites;
+}

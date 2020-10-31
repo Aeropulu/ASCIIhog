@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <map>
 
 
 class Sprite
@@ -11,7 +12,9 @@ class Sprite
 
 		CHAR_INFO*  c;
 		int w, h;
+		
 
 		static std::vector<Sprite *> FromFile(std::string);
+		static std::vector<Sprite *> FromFile(std::string, const std::map<char, WORD>&);
 };
 
