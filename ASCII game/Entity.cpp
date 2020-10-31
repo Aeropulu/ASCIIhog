@@ -23,8 +23,8 @@ SMALL_RECT Entity::GetRect()
 std::pair<bool, bool> Entity::Draw(CHAR_INFO key, bool testHit)
 {
 	return buffer.Draw(
-		x-(sprites[state]->w/2), 
-		y, 
+		(int)x-(sprites[state]->w/2), 
+		(int)y, 
 		sprites[state]->w, 
 		sprites[state]->h, 
 		sprites[state]->c,

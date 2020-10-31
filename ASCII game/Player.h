@@ -13,7 +13,6 @@ class Player :
         void Jump();
         void Die();
         void Reset();
-        float timer;
         bool onGround = false;
         float speedX, speedY;
         float nextX, nextY;

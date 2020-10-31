@@ -178,7 +178,7 @@ void Player::ProcessInput()
 
 void Player::ProcessNextPos()
 {
-    speedY += 0.01;
+    speedY += 0.01f;
     if (onGround)
         speedX *= 0.90f;
     else
