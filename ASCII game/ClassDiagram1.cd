@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NYTimer" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAgAAAAEAAAAAAAAEgAIAAAAAAAAAA=</HashCode>
+      <FileName>ASCII game.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleBuffer" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAgAAAAAAAAAAAAAAIAAAQAhAAABAAAA=</HashCode>
+      <FileName>ConsoleBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAIAAAEAAAAgAgAAAAAAAAAAAAAAAEEADgAACAAAA=</HashCode>
+      <FileName>Entity.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="sprites" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="KeyboardScheme" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAEAAAAQAgQABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KeyboardScheme.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputScheme" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputScheme.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABCAAwgAQJAAgAAAAAAAACAGgA1AAgAAAAQAAAAA=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sprite" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUQAgAAAAAAAA=</HashCode>
+      <FileName>Sprite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wall" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAACAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Wall.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

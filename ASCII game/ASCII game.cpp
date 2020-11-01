@@ -11,7 +11,6 @@
 #include "Player.h"
 #include "KeyboardScheme.h"
 
-void sayHi(CHAR_INFO* buffer, int x, int y);
 const int SCREEN_WIDTH = 120;
 const int SCREEN_HEIGHT = 40;
 
@@ -21,7 +20,6 @@ const int SCREEN_HEIGHT = 40;
 
 #include <windows.h>
 #include "Wall.h"
-#include "ASCII game.h"
 
 class NYTimer
 {
@@ -118,12 +116,14 @@ int main()
     
 
     std::vector<Wall*> walls;
-    Wall* wall1 = new Wall(buffer, 20, 20, 30, 4);
+    Wall* wall1 = new Wall(buffer, 60, 35, 110, 4);
     walls.push_back(wall1);
-    Wall* wall2 = new Wall(buffer, 80, 10, 30, 8);
+    Wall* wall2 = new Wall(buffer, 10, 24, 30, 4);
     walls.push_back(wall2);
-    Wall* wall3 = new Wall(buffer, 50, 30, 50, 4);
+    Wall* wall3 = new Wall(buffer, 115, 24, 40, 4);
     walls.push_back(wall3);
+    Wall* wall4 = new Wall(buffer, 60, 15, 40, 4);
+    walls.push_back(wall4);
 
     //InputScheme* input = new KeyboardScheme();
 
@@ -158,7 +158,7 @@ int main()
     Player player = Player(buffer, sprites_red, 10, 5);
     players.push_back(player);
     InputScheme* input2 = new KeyboardScheme('Z', 'S', 'Q', 'D');
-    Player player2 = Player(buffer, sprites_blue, 40, 20, input2);
+    Player player2 = Player(buffer, sprites_blue, 110, 10, input2);
     players.push_back(player2);
 
     

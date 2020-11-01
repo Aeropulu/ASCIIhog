@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="ASCII game.cpp" />
     <ClCompile Include="ConsoleBuffer.cpp" />
-    <ClCompile Include="HitBox.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="KeyboardScheme.cpp" />
     <ClCompile Include="NYTimer.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="ASCII game.h" />
     <ClInclude Include="ConsoleBuffer.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="HitBox.h" />
     <ClInclude Include="KeyboardScheme.h" />
     <ClInclude Include="InputScheme.h" />
     <ClInclude Include="Player.h" />
@@ -165,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
